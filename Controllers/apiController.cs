@@ -53,5 +53,19 @@ namespace MSIT155Site.Controllers
         {
             return View();
         }
+
+        public IActionResult CheckAccountAction(UserDTO _user)
+        {
+            string checkmsg = "";
+            if (_context.Members.FirstOrDefault(m=>m.Name==_user.Name) !=null)
+            {
+                checkmsg = "帳號已存在";
+            }
+            else
+            {
+                checkmsg = "帳號可使用";
+            }
+            return Content($"{checkmsg}");
+        }
     }
 }
