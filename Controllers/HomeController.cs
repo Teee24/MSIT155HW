@@ -17,7 +17,10 @@ namespace MSIT155Site.Controllers
         {
             return View();
         }
-
+        public IActionResult JsonTest()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

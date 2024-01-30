@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "JsonTest";
+}
+
+<h1>JsonTest</h1>
+<ul id="emp"></ul>
+
+
+
+
+@section Scripts{
+   
+    <script>
+        const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+        { "name": "Jack", "workYears": 5, "salary": 40000 },
+        { "name": "Mary", "workYears": 7, "salary": 45000 }];
+
+        const result = document.getElementById("emp");
+        // let rlist = "";
+        //read data    
+        //display
+
+        //array method->forEach(use call back function)
+        // emps.forEach((emps)=> {
+        //     rlist += `<li>${emps.name},${emps.workYears},${emps.salary}</li>`;
+        // })
+        
+        //for loop
+        // for (let i = 0, max = emps.length; i < max; i++) {
+        //     rlist += `<li>${emps[i].name},${emps[i].workYears},${emps[i].salary}</li>`;
+        // }
+        // result.innerHTML = rlist;
+
+        //map+join
+        const fin = emps.map(emps => {
+            return `<li>${emps.name},${emps.workYears},${emps.salary}</li>`
+        })
+        result.innerHTML = fin.join('')
+    </script>
+}

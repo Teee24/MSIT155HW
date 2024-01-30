@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="hw" class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100">
+            <img src="" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+@section Scripts{
+    <script src="~/js/travel.js"></script>
+    <script>
+        const result = document.querySelector("#hw");
+        const travels = spots.CommonFormat.Section;
+        console.log(travels[79].file.img.text);
+        console.log(travels[0].file.img[0].text);
+        console.log(typeof (travels[79].file.img[0]) == "undefined");
+        console.log(typeof (travels[0].file.img[0]) == "undefined");
+
+        const fin = spots.CommonFormat.Section.map((spots,index) => {
+            //console.log(typeof (travels[index].file.img[0]))
+            const pic = (typeof (travels[index].file.img[0]) == "undefined") ? `${travels[index].file.img.text}` : `${travels[index].file.img[0].text}`;
+            return ` <div class="col">
+                <div class="card h-100">
+                         <img class="card-img-top"  src="${pic}" alt="圖片載入有問題">
+                    <div class="card-body">
+                         <h5 class="card-title">${travels[index].stitle} </h5>
+                         <p class="card-text" > ${travels[index].xbody.substring(0, 100)} </p>
+                    </div>
+                    <div class="card-footer">
+                                <small class="text-body-secondary">${travels[index].address}</small>
+                    </div>
+                </div>
+            </div> `
+
+        })
+        result.innerHTML = fin.join("");
+        
+    </script>
+}
