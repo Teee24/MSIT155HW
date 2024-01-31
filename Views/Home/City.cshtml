@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "City";
+}
+
+<h1>City</h1>
+<select id="SelectCity" >
+    <option value="0">--請選擇城市--</option>
+</select>
+
+@section Scripts{
+
+    <script>
+        const SelectCity = document.querySelector("#SelectCity");
+        (async() => {
+            const url = '@Url.Content("~/api/cities")';
+            const response = await fetch(url, {});
+            const data = await response.json();
+            // console.log(data);
+            //read data
+            const options = data.map((city) => {
+                return `<option value="${city}">${city}</option>`;
+            })
+            //display
+            SelectCity.innerHTML += options.join('');
+        })();
+    </script>
+}

@@ -30,20 +30,20 @@
 </div>
 @section Scripts {
     <script>
-        const divWarning = document.getElementById("#divWarning");
+        const divWarning = document.querySelector("#divWarning");
         const userName = document.querySelector("#userName");
 
         console.log(userName);
 
-        userName.addEventListener('mouseleave ', async (e) => {
+        userName.addEventListener('blur', async (e) => {
 
             
-            console.log(userName.innerHTML);
-
-            const url = url = "@Url.Content("~/api/CheckAccountAction")?name=`${userName.value}`";
+            const usernamevalue = userName.value;
+            const url =  "@Url.Content("~/api/CheckAccountAction")?name="+`${userName.value}`;
             const response = await fetch(url);
             const data = await response.text();
-            divWarning.innerHTML = `${ data }`;
+            
+            divWarning.innerHTML = `${data}`;
         })
         
        

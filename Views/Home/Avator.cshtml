@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Avator";
+}
+
+<h1>Avator</h1>
+
+<img id="img1" class="img-thumbnail w-25" src="" />
+
+@section Scripts{
+    <script>
+        const img1 = document.querySelector("#img1");
+        console.log(img1);
+        (async() => {
+            const url = "@Url.Content("~/api/avator/2")";
+            const response = await fetch(url, {});
+            if (!response.ok) {
+                console.log(response.status);
+                return;
+            }
+            const data = await response.blob();
+            img1.src = URL.createObjectURL(data);
+        })();
+    </script>
+}
