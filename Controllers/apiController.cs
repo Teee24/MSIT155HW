@@ -34,6 +34,17 @@ namespace MSIT155Site.Controllers
             var cities = _context.Addresses.Select(x => x.City).Distinct();
             return Json(cities);
         }
+        public IActionResult District(string city)
+        {
+            var district = _context.Addresses.Where(m=>m.City==city).Select(m=>m.SiteId.Substring(3,3)).Distinct();
+            return Json(district);
+        }
+        public IActionResult Road(string district)
+        {
+            var street = _context.Addresses.Where(m => m.SiteId == district).Select(m => m.Road).Distinct();
+
+            return Json(street);
+        }
         public IActionResult avator(int id = 1)
         {
             Member? member = _context.Members.Find(id);

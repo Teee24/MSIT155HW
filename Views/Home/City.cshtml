@@ -7,11 +7,19 @@
 <select id="SelectCity" >
     <option value="0">--請選擇城市--</option>
 </select>
+<select id="SelectDistrict" >
+    <option value="0">--請選擇鄉鎮區--</option>
+</select>
+<select id="SelectStreet" >
+    <option value="0">--請選擇路名--</option>
+</select>
 
 @section Scripts{
 
     <script>
         const SelectCity = document.querySelector("#SelectCity");
+        const SelectDistrict = document.querySelector("#SelectDistrict");
+        const SelectStreet = document.querySelector("#SelectStreet");
         (async() => {
             const url = '@Url.Content("~/api/cities")';
             const response = await fetch(url, {});
@@ -23,6 +31,44 @@
             })
             //display
             SelectCity.innerHTML += options.join('');
+            loadDistrict();
         })();
+
+        const loadDistrict = async () => {
+            
+            //catch city value
+            //console.log(SelectCity.options[SelectCity.selectedIndex].value);
+            const city = SelectCity.options[SelectCity.selectedIndex].value;
+            // console.log(city);
+            const url = `@Url.Content("~/api/district")?city=${city}`;
+            const response = await fetch(url, {});
+            const data = await response.json();
+           
+            //read data
+            const DistrictOption = data.map(distrcit => `<option value="${distrcit}">${distrcit}</option>`)
+            //display data
+
+            SelectDistrict.innerHTML += DistrictOption.join('');
+            //loadStreet();
+        };
+
+        SelectCity.addEventListener('change', loadDistrict);
+
+        const loadStreet = async () => {
+            //catch city value
+            //console.log(SelectCity.options[SelectCity.selectedIndex].value);
+            const district = SelectDistrict.options[SelectDistrict.selectedIndex].value;
+            console.log(district);
+            const url = `@Url.Content("~/api/Road")?district=${district}`;
+            const response = await fetch(url, {});
+            const data = await response.json();
+            console.log(data);
+            //read data
+            const StreetOption = data.map(street => `<option value="${street}">${street}</option>`)
+            //display data
+            SelectStreet.innerHTML += StreetOption.join('');
+        };
+
+        SelectDistrict.addEventListener('change', loadStreet);
     </script>
 }
