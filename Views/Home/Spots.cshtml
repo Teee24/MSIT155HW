@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "Spots";
+}
+
+<h1>Spots</h1>
+<nav aria-label="Page navigation example">
+    <ul class="pagination" id="nav1"> 
+      
+    </ul>
+</nav>
+
+<div id="div1" class="row row-cols-1 row-cols-md-3 g-4">
+    
+
+</div>
+
+@section Scripts{
+    <script>
+        const div1 = document.querySelector("#div1");
+        const divpaging = document.querySelector("#nav1");
+
+        const searchData = {
+            "categoryId": 0,
+            "keyword": "北投",
+            "page": 1,
+            "pageSize": 9,
+            "sortType": "asc",
+            "sortBy": ""
+        };
+
+        //因為會做多次呼叫所以不做成IIFE
+        const loadSpots = async () => {
+            const url = "@Url.Content("~/api/spots")";
+            const response = await fetch(url, {
+                "method": "POST",
+                "body": JSON.stringify(searchData),
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            });
+            const datas = await response.json()
+           console.log(datas)
+            const divSpots = datas.spotsResult.map(spots=> {
+                const { address, spotId, spotDescription, spotImage, spotTitle } = spots;
+                return (`<div class="col">
+                        <div class="card h-100">
+                                 <img title="${spotTitle}" src="${spotImage}" class="card-img-top" alt="${spotTitle}" width="373px" height="275px">
+                            <div class="card-body">
+                                 <h5 class="card-title">${spotId} ${spotTitle}</h5>
+                                 <p class="card-text" style="font:text-align"> ${spotDescription.length <= 100 ? spotDescription : spotDescription.substring(0,100)}  </div>
+                            <div class="card-footer">
+                                 <small class="text-body-secondary">${address}</small>
+                            </div>
+                        </div>
+                    </div>`)
+            });
+            div1.innerHTML = divSpots.join('');
+
+            let liPaging = "";
+            for (let i = 1, max = datas.totalPages; i <= max; i++) {
+                liPaging += `<li class="page-item" onclick="pagingHandler(${i})" ><a class="page-link" href="#">${i}</a></li>`;
+            }
+
+            divpaging.innerHTML = liPaging;
+        };
+        loadSpots();
+        const pagingHandler = (page) => {
+            searchData.page = page;
+            loadSpots();
+        }
+
+    </script>
+}

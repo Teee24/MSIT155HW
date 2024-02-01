@@ -35,7 +35,7 @@
         })();
 
         const loadDistrict = async () => {
-            
+            SelectDistrict.innerHTML=`<option value="0" > --請選擇鄉鎮區--</option>`;
             //catch city value
             //console.log(SelectCity.options[SelectCity.selectedIndex].value);
             const city = SelectCity.options[SelectCity.selectedIndex].value;
@@ -55,6 +55,7 @@
         SelectCity.addEventListener('change', loadDistrict);
 
         const loadStreet = async () => {
+            SelectStreet.innerHTML = ` <option value="0">--請選擇路名--</option>`;
             //catch city value
             //console.log(SelectCity.options[SelectCity.selectedIndex].value);
             const district = SelectDistrict.options[SelectDistrict.selectedIndex].value;

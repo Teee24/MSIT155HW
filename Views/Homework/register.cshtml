@@ -42,8 +42,15 @@
             const url =  "@Url.Content("~/api/CheckAccountAction")?name="+`${userName.value}`;
             const response = await fetch(url);
             const data = await response.text();
-            
-            divWarning.innerHTML = `${data}`;
+            console.log(data);
+            let msg = '';
+            if (data === "True") {
+                msg = "帳號已存在";
+            }else{
+                //*沒輸入會有問題
+                msg = "帳號可使用";
+            }
+            divWarning.innerHTML = msg;
         })
         
        

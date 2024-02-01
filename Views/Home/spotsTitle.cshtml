@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "spotsTitle";
+}
+
+<h1>spotsTitle</h1>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <input type="search" class="form-control mb-3" id="inputSearch" />
+        <div class="list-group" id="divResult"></div>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const inputSearch = document.querySelector("#inputSearch");
+        const divResult = document.querySelector("#divResult");
+
+        inputSearch.addEventListener('input', async (event) => {
+            //const spots = async
+            const reponse = await fetch(`@Url.Content("~/api/autoComplete")?title=${event.target.value}`);
+            const datas = await reponse.json();
+            // console.log(datas);
+            const result = datas.map(title => `<a onclick="clickHandler('${title}')" href = "#" class= "list-group-item list-group-item-action"> ${ title } </a>`)
+            divResult.innerHTML = result.join('');
+        })
+        const clickHandler = title => {
+            inputSearch.value = title;
+            divResult.innerHTML = "";
+
+        }
+
+    </script>
+}
+

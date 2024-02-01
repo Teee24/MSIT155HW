@@ -43,5 +43,14 @@ namespace MSIT155Site.Controllers
         {
             return View();
         }
+        public IActionResult Spots()
+        {
+            return View();
+        }
+        public IActionResult spotsTitle()
+        {
+            return View();
+        }
+
     }
 }
