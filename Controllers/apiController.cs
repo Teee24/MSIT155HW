@@ -141,6 +141,11 @@ namespace MSIT155Site.Controllers
                 .Select(s=> s.SpotTitle).Take(8);
             return Json(spottitles);
         }
+
+        public IActionResult categories()
+        {
+            return Json(_context.Categories);
+        }
     }
            
 }

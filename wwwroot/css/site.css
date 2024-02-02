@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+.btn-outline-secondary:hover {
+    color: ghostwhite;
+    background-color: #C4E1E1;
+    border-color: #6c757d;
+}

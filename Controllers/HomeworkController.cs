@@ -16,12 +16,12 @@ namespace MSIT155Site.Controllers
         {
             return View();
         }
-
-        public IActionResult Spots()
+       
+        public IActionResult RegisterAccount()
         {
             return View();
-        }
-        public IActionResult registeraccount()
+        } 
+        public IActionResult TaipeiSpots()
         {
             return View();
         }

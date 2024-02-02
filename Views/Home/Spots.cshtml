@@ -21,8 +21,8 @@
         const divpaging = document.querySelector("#nav1");
 
         const searchData = {
-            "categoryId": 0,
-            "keyword": "北投",
+            "categoryId": 1,
+            "keyword": "",
             "page": 1,
             "pageSize": 9,
             "sortType": "asc",
@@ -40,7 +40,7 @@
                 }
             });
             const datas = await response.json()
-           console.log(datas)
+            console.log(datas);
             const divSpots = datas.spotsResult.map(spots=> {
                 const { address, spotId, spotDescription, spotImage, spotTitle } = spots;
                 return (`<div class="col">

@@ -52,5 +52,10 @@ namespace MSIT155Site.Controllers
             return View();
         }
 
+        public IActionResult Cors()
+        {
+            //Server端呼叫使用HttpClient套件
+            return View();
+        }
     }
 }

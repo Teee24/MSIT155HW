@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "TaipeiSpots";
+}
+@section Style {
+    <style>
+        .btn-group .btn.active {
+            color: #E8FFC4;
+            border-color: #ff60bd;
+        }
+    </style>
+}
+<h1>台北市景點</h1>
+
+<div class="row">
+    <div class="col-3">
+        <select class="form-select" id="pagesize" name="pagesize">
+        </select>
+    </div>
+    <div class="col-3">
+        <nav>
+            <ul class="pagination" id="pages" name="pages">
+
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-3">
+        <select class="form-select" id="sortby" name="sortby">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+
+    <div class="col-3" id="search" name="search">
+        <input type="search" class="form-control" id="inputSearch" placeholder="景點搜索" />
+        <div class="list-group" id="divResult"></div>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="btn-group" role="group" id="category" name="category">
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4" id="spots">
+    <div class="col">
+        <div class="card h-100">
+            <img src="" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const pagesize = document.querySelector("#pagesize");
+        const pages = document.querySelector("#pages");
+        const sortby = document.querySelector("#sortby");
+        const inputSearch = document.querySelector("#inputSearch");
+        const divResult = document.querySelector("#divResult");
+        const category = document.querySelector("#category");
+        const spots = document.querySelector("#spots");
+
+        const searchData = {
+            "categoryId": 1,
+            "keyword": "",
+            "page": 1,
+            "pageSize": 9,
+            "sortType": "asc",
+            "sortBy": ""
+        };
+
+        //景點分類標籤生成
+        (async () => {
+            //取資料
+            const url = "@Url.Content("~/api/categories")";
+            const response = await fetch(url);
+            const datas = await response.json();
+
+            //讀資料
+            const categories = datas.map(datas => {
+                return ` <button type="button" class="btn btn-outline-secondary p-3 rounded-2" value="${datas.categoryId}" >${datas.categoryName}</button>`
+            })
+            //display
+            category.innerHTML = categories.join('');
+
+            let sizes = '';
+            for (let i = 9, max = 36; i <= max; i += 3) {
+                sizes += `<option value="${i}" >每頁${i}筆資料</option>`;
+            }
+            pagesize.innerHTML = sizes;
+            
+        })();
+
+        const load = async () => {
+
+            const url = "@Url.Content("~/api/Spots")";
+            const response = await fetch(url, {
+                "method": "POST",
+                "body": JSON.stringify(searchData),
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            });
+            const datas = await response.json();
+
+            //讀資料
+            //景點card
+            const divSpots = datas.spotsResult.map(spots => {
+                const { address, spotId, spotDescription, spotImage, spotTitle } = spots;
+                return (`<div class="col">
+                            <div class="card h-100">
+                                <img title="${spotTitle}" src="${spotImage}" class="card-img-top" alt="${spotTitle}" width="373px" height="275px">
+                            <div class="card-body">
+                                <h5 class="card-title">${spotId} ${spotTitle}</h5>
+                                <p class="card-text" style="font:text-align"> ${spotDescription.length <= 100 ? spotDescription : spotDescription.substring(0, 100)}
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">${address}</small>
+                            </div>
+                            </div>
+                        </div>`)
+            });
+
+            //分頁
+            //
+            let liPaging = "";
+            for (let i = 1, max = datas.totalPages; i <= max; i++) {
+                liPaging += `<li class="page-item" onclick="pagingHandler(${i})" ><a class="page-link" >${i}</a></li>`;
+            }
+            //display
+            spots.innerHTML = divSpots.join("");
+            pages.innerHTML = liPaging;
+
+        }
+        load();
+    </script>
+}
+
